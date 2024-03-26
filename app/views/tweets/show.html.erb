@@ -1,0 +1,18 @@
+<h1>Tweet</h1>
+<p><%= @tweet.content %></p>
+<p>Posted by: <%= @tweet.user.email %></p>
+
+<%= link_to 'Back', tweets_path, class: "btn btn-secondary mt-3" %>
+
+<% if current_user && @tweet.user == current_user %>
+  <%= link_to 'Delete', @tweet.destroy, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger mt-3 ml-3' %>
+<% end %>
+
+<h2>Comments</h2>
+<%= render 'shared/comment_form' %>
+
+<% @tweet.comments.each do |comment| %>
+  <div class="comment">
+    <p><%= comment.user.email %>: <%= comment.content %></p>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<!-- app/views/shared/_comment_form.html.erb -->
+<%= form_with(model: [@tweet, Comment.new], local: true) do |form| %>
+  <div class="mb-3">
+    <%= form.label :content %>
+    <%= form.text_area :content, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit "Add Comment", class: "btn btn-primary" %>
+  </div>
+<% end %>

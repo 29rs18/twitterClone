@@ -1,0 +1,20 @@
+<h2>Tweet</h2>
+<p><%= @tweet.content %></p>
+
+<h3>Comments</h3>
+<%= form_with(model: [@tweet, Comment.new], local: true) do |form| %>
+  <div class="mb-3">
+    <%= form.label :content %>
+    <%= form.text_area :content, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit "Add Comment", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<% @tweet.comments.each do |comment| %>
+  <div class="comment">
+    <p><%= comment.user.email %>: <%= comment.content %></p>
+  </div>
+<% end %>

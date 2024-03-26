@@ -1,0 +1,36 @@
+<div class="container">
+  <h1 class="my-4">Tweets</h1>
+  <% if current_user %>
+    <%= link_to 'Logout', logout_path, method: :delete, class: "btn btn-outline-danger" %>
+  <% else %>
+    <%= link_to 'Log in', login_path, class: "btn btn-outline-success" %>
+    <%= link_to 'Sign Up', signup_path, class: "btn btn-secondary" %>
+  <% end %>
+
+  <% if current_user %>
+    <%= form_with(model: Tweet.new, local: true) do |form| %>
+      <div class="mb-3">
+        <%= form.label :content, class: "form-label" %>
+        <%= form.text_area :content, class: "form-control", rows: 3 %>
+      </div>
+
+      <div>
+        <%= form.submit "Tweet", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="mt-4">
+    <% @tweets.each do |tweet| %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <p class="card-text"><%= tweet.content %></p>
+          <p class="card-text">
+            <small class="text-muted">Posted by <%= tweet.user.email %> at <%= tweet.created_at.strftime("%B %d, %Y %H:%M") %></small>
+          </p>
+          <%= link_to 'View', tweet_path(tweet), class: "btn btn-secondary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
