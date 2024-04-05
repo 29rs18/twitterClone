@@ -1,10 +1,10 @@
 <div class="container">
   <h1 class="my-4">Tweets</h1>
   <% if current_user %>
-    <%= link_to 'Logout', logout_path, method: :delete, class: "btn btn-outline-danger" %>
+    <%= link_to 'Logout', destroy_user_session_path, method: :get, class: "btn btn-outline-danger" %>
   <% else %>
-    <%= link_to 'Log in', login_path, class: "btn btn-outline-success" %>
-    <%= link_to 'Sign Up', signup_path, class: "btn btn-secondary" %>
+    <%= link_to 'Log in', new_user_session_path, class: "btn btn-outline-success" %>
+    <%= link_to 'Sign Up', new_user_registration_path, class: "btn btn-secondary" %>
   <% end %>
 
   <% if current_user %>
@@ -26,9 +26,29 @@
         <div class="card-body">
           <p class="card-text"><%= tweet.content %></p>
           <p class="card-text">
-            <small class="text-muted">Posted by <%= tweet.user.email %> at <%= tweet.created_at.strftime("%B %d, %Y %H:%M") %></small>
+            <% if tweet.user %>
+              <small class="text-muted">
+                Posted by <%= tweet.user.email %> at <%= tweet.created_at.strftime("%B %d, %Y %H:%M") %>
+                <%= tweet.likes.count %> Likes
+              </small>
+            <% else %>
+              <small class="text-muted">Posted by Unknown User at <%= tweet.created_at.strftime("%B %d, %Y %H:%M") %></small>
+            <% end %>
           </p>
           <%= link_to 'View', tweet_path(tweet), class: "btn btn-secondary" %>
+          <% if current_user %>
+            <% if current_user.liked_tweets.include?(tweet) %>
+              <% like = current_user.likes.find_by(tweet: tweet) %>
+              <%= form_with(url: tweet_like_path(tweet, like), method: :delete, local: false, remote: true) do |form| %>
+                <%= form.submit 'Unlike', class: 'btn btn-danger' %>
+              <% end %>
+            <% else %>
+              <%= form_with(model: Like.new, url: tweet_likes_path(tweet_id: tweet.id), local: false, remote: true) do |form| %>
+                <%= form.hidden_field :tweet_id, value: tweet.id %>
+                <%= form.submit 'Like', class: 'btn btn-primary' %>
+              <% end %>
+            <% end %>
+          <% end %>
         </div>
       </div>
     <% end %>

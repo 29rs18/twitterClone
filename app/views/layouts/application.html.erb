@@ -16,6 +16,9 @@
   <div class="alert alert-<%= type %>"><%= message %></div>
 <% end %>
 
+<% if user_signed_in? %>
+  Logged in as <%= current_user.email %>
+ <% end%>
 <%= yield %>
 </body>
 </html>

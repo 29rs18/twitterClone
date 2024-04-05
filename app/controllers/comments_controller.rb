@@ -19,4 +19,10 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:content)
   end
+
+  def require_user
+    unless current_user
+      redirect_to tweet_path(params[:tweet_id]), alert: 'You must be logged in to add a comment.'
+    end
+  end
 end
