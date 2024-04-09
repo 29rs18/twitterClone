@@ -7,6 +7,8 @@ class LikesController < ApplicationController
     @like = current_user.likes.build(tweet: @tweet)
 
     if @like.save
+      NotificationMailer.new_like_notification(@tweet.user, @tweet).deliver_later
+      @sent_successfully = true
       redirect_to @tweet, notice: 'Tweet liked successfully.'
     else
       redirect_to @tweet, alert: 'Failed to like the tweet.'

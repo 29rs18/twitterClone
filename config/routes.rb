@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy'
 
   resources :tweets do
-    resources :comments, only: [:create]
+    resources :comments, only: [:create,:destroy]
     resources :likes, only: [:create, :destroy]
   end
 

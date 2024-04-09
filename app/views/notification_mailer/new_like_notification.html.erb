@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<h1>Hi <%= @user.email %>,</h1>
+<p>
+  Someone liked your tweet:
+</p>
+<p>
+  <%= @tweet.content %>
+</p>
+<p>
+  Thanks for using our Twitter clone app!
+</p>
+<% if @sent_successfully %>
+  <p style="color: green;">The email was sent successfully!</p>
+<% end %>
+</body>
+</html>

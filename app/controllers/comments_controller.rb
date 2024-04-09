@@ -8,6 +8,8 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
+      NotificationMailer.new_comment_notification(@tweet.user, @comment).deliver_later
+      @sent_successfully = true
       redirect_to tweet_path(@tweet), notice: 'Comment was successfully added.'
     else
       redirect_to tweet_path(@tweet), alert: 'Failed to add comment.'

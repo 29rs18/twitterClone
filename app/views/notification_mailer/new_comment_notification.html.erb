@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<h1>Hi <%= @user.email %>,</h1>
+<p>
+  Someone commented on your tweet:
+</p>
+<% if @tweet.present? %>
+  <p>
+    <%= @tweet.content %>
+  </p>
+<% end %>
+<p>
+  <% if @comment.present? %>
+    Comment: <%= @comment.content %>
+  <% else %>
+    Comment: [No content available]
+  <% end %>
+</p>
+<p>
+  Thanks for using our Twitter clone app!
+</p>
+</body>
+</html>
