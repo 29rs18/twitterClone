@@ -1,5 +1,7 @@
 <!-- app/views/shared/_signup_form.html.erb -->
 <%= form_with(model: @user, local: true) do |form| %>
+  <!-- Add CSRF token field -->
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <div class="mb-3">
     <%= form.label :email %>
     <%= form.email_field :email, class: "form-control" %>

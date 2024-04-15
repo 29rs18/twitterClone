@@ -17,4 +17,15 @@ class SessionsController < ApplicationController
     session.delete(:user_id)
     redirect_to root_path, notice: "Logged out successfully."
   end
+
+  # Modify the respond_with method to accept one argument
+  private
+
+  def respond_with(resource)
+    if resource.present?
+      render json: resource
+    else
+      render json: { error: 'Invalid email or password' }, status: :unauthorized
+    end
+  end
 end

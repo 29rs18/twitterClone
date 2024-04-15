@@ -1,5 +1,6 @@
 # app/controllers/tweets_controller.rb
 class TweetsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :require_user, only: [:new, :create]
   before_action :set_tweet, only: [:show, :destroy]
 

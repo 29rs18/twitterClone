@@ -3,23 +3,29 @@
 <p>Posted by: <%= @tweet.user.email %></p>
 
 <% if current_user %>
-  <% if current_user.liked_tweets.include?(@tweet) %>
-    <%= form_with(model: current_user.likes.find_by(tweet: @tweet), url: tweet_like_path(@tweet, current_user.likes.find_by(tweet: @tweet)), method: :delete, local: false, data: { remote: true }) do |form| %>
-      <%= form.submit 'Unlike', class: 'btn btn-danger' %>
+  <div>
+    <% if current_user.liked_tweets.include?(@tweet) %>
+      <%= form_with(model: current_user.likes.find_by(tweet: @tweet), url: tweet_like_path(@tweet, current_user.likes.find_by(tweet: @tweet)), method: :delete, local: false, data: { remote: true }) do |form| %>
+        <%= form.submit 'Unlike', class: 'btn btn-danger' %>
+      <% end %>
+    <% else %>
+      <%= form_with(model: Like.new, url: tweet_likes_path(tweet_id: @tweet.id), local: false, data: { remote: true }) do |form| %>
+        <%= form.hidden_field :tweet_id, value: @tweet.id %>
+        <%= form.submit 'Like', class: 'btn btn-primary' %>
+      <% end %>
     <% end %>
-  <% else %>
-    <%= form_with(model: Like.new, url: tweet_likes_path(tweet_id: @tweet.id), local: false, data: { remote: true }) do |form| %>
-      <%= form.hidden_field :tweet_id, value: @tweet.id %>
-      <%= form.submit 'Like', class: 'btn btn-primary' %>
-    <% end %>
-  <% end %>
-  <span id="like-count"><%= @tweet.likes.count %> Likes</span>
+    <span id="like-count"><%= @tweet.likes.count %> Likes</span>
+  </div>
 <% end %>
 
 <%= link_to 'Back', tweets_path, class: "btn btn-secondary mt-3" %>
 
 <% if current_user && @tweet.user == current_user %>
-  <%= link_to 'Delete', @tweet, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger mt-3 ml-3' %>
+  <div>
+    <%= form_with(model: @tweet, method: :delete, url: tweet_path(@tweet), data: { confirm: 'Are you sure?' }) do |form| %>
+      <%= form.button 'Delete', class: 'btn btn-danger mt-3' %>
+    <% end %>
+  </div>
 <% end %>
 
 <h2>Comments</h2>
